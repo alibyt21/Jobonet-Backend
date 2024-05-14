@@ -1,8 +1,10 @@
 import express from "express";
-import AuthController from "../controllers/auth-controller.js";
+import UserController from "../controllers/user-controller.js";
 
 const router = express.Router();
 
-router.use("/", AuthController.validate);
+router.post("/login", UserController.login);
+router.post("/register", UserController.register);
+router.get("/permission", UserController.getPermission);
 
 export default router;

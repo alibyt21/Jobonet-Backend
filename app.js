@@ -1,18 +1,12 @@
 import express from "express";
 import "dotenv/config";
 import sequelize from "./utils/db.js";
-import contactRoutes from "./routes/contact-routes.js";
-import groupRoutes from "./routes/group-routes.js";
-import campaignRoutes from "./routes/campaign-routes.js";
-import stepRoutes from "./routes/step-routes.js";
-import messageRoutes from "./routes/message-routes.js";
-import settingRoutes from "./routes/setting-routes.js";
 import authRoutes from "./routes/auth-routes.js";
 import userRoutes from "./routes/user-routes.js";
+import organizationRoutes from "./routes/organization-routes.js";
 import insertData from "./utils/insertData.js";
 import cors from "cors";
-import ContactController from "./controllers/contact-controller.js";
-import SendSMS from "./services/send-sms.js";
+import AuthController from "./controllers/auth-controller.js";
 const { APP_PORT, API_BASE_URL } = process.env;
 
 const app = express();
@@ -27,16 +21,11 @@ app.use(express.json());
 
 // api routes
 // public routes
-app.use(API_BASE_URL, userRoutes);
-app.get(`${API_BASE_URL}/add-contact`, ContactController.addContact);
-// protected routes
 app.use(API_BASE_URL, authRoutes);
-app.use(API_BASE_URL, contactRoutes);
-app.use(API_BASE_URL, groupRoutes);
-app.use(API_BASE_URL, campaignRoutes);
-app.use(API_BASE_URL, stepRoutes);
-app.use(API_BASE_URL, messageRoutes);
-app.use(API_BASE_URL, settingRoutes);
+// protected routes
+app.use("/", AuthController.validate);
+app.use(API_BASE_URL, userRoutes);
+app.use(API_BASE_URL, organizationRoutes);
 
 // prevent from generating Cannot GET / ...
 app.use("/", (req, res) => {
@@ -45,13 +34,8 @@ app.use("/", (req, res) => {
     });
 });
 
-setTimeout(() => {
-    // SendSMS.send_normal();
-    // SendSMS.send_pattern("qncer227zn");
-}, 1000);
-
 // sync sequelize tables
-await sequelize.sync();
+await sequelize.sync({ force: true });
 insertData();
 // running server
 app.listen(APP_PORT, () => {
