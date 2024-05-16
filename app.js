@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import sequelize from "./utils/db.js";
 import authRoutes from "./routes/auth-routes.js";
+import uploadRoutes from "./routes/upload-routes.js";
 import userRoutes from "./routes/user-routes.js";
 import organizationRoutes from "./routes/organization-routes.js";
 import insertData from "./utils/insertData.js";
@@ -10,6 +11,8 @@ import AuthController from "./controllers/auth-controller.js";
 const { APP_PORT, API_BASE_URL } = process.env;
 
 const app = express();
+
+app.use(express.static("public"));
 
 // setting essential headers for REST API
 app.use(cors());
@@ -22,6 +25,7 @@ app.use(express.json());
 // api routes
 // public routes
 app.use(API_BASE_URL, authRoutes);
+app.use(API_BASE_URL, uploadRoutes);
 // protected routes
 app.use("/", AuthController.validate);
 app.use(API_BASE_URL, userRoutes);

@@ -133,7 +133,7 @@ export default class UserController {
                 message: "successful",
             });
         } catch (error) {
-            res.status(500).json({
+            res.status(401).json({
                 success: false,
                 body: null,
                 message: error.message,

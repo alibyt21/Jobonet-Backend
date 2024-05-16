@@ -41,7 +41,7 @@ export default async function insertData() {
         const orgs = Organization.bulkCreate([
             {
                 name: "سازمان امور مالیاتی کشور",
-                logo: "test@gmail.com",
+                logo: "som.png",
             },
         ]);
     }
