@@ -5,6 +5,8 @@ import authRoutes from "./routes/auth-routes.js";
 import uploadRoutes from "./routes/upload-routes.js";
 import userRoutes from "./routes/user-routes.js";
 import organizationRoutes from "./routes/organization-routes.js";
+import roleRoutes from "./routes/role-routes.js";
+import jobRoutes from "./routes/job-routes.js";
 import insertData from "./utils/insertData.js";
 import cors from "cors";
 import AuthController from "./controllers/auth-controller.js";
@@ -12,7 +14,8 @@ const { APP_PORT, API_BASE_URL } = process.env;
 
 const app = express();
 
-app.use(express.static("public"));
+// serve static files
+app.use(API_BASE_URL, express.static("public"));
 
 // setting essential headers for REST API
 app.use(cors());
@@ -30,6 +33,8 @@ app.use(API_BASE_URL, uploadRoutes);
 app.use("/", AuthController.validate);
 app.use(API_BASE_URL, userRoutes);
 app.use(API_BASE_URL, organizationRoutes);
+app.use(API_BASE_URL, roleRoutes);
+app.use(API_BASE_URL, jobRoutes);
 
 // prevent from generating Cannot GET / ...
 app.use("/", (req, res) => {
@@ -39,7 +44,7 @@ app.use("/", (req, res) => {
 });
 
 // sync sequelize tables
-await sequelize.sync({ force: true });
+await sequelize.sync();
 insertData();
 // running server
 app.listen(APP_PORT, () => {

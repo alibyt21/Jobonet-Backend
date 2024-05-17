@@ -14,13 +14,7 @@ export default class UserController {
                 where: {
                     email,
                 },
-                include: [
-                    {
-                        model: Role,
-                    },
-                ],
             });
-
             if (!user) {
                 return res.status(400).json({
                     success: false,
@@ -46,7 +40,6 @@ export default class UserController {
                 success: true,
                 body: {
                     token,
-                    permission: user.toJSON().role.permission,
                 },
                 message: "logined",
             });
@@ -97,7 +90,7 @@ export default class UserController {
             });
         }
     }
-    static async getPermission(req, res) {
+    static async getUser(req, res) {
         const token = req.header("Authorization");
         if (!token) {
             return res.status(400).json({
@@ -112,9 +105,13 @@ export default class UserController {
                 where: {
                     id: decoded.userId,
                 },
+                attributes: ["fullName", "email"],
                 include: [
                     {
                         model: Role,
+                    },
+                    {
+                        model: Organization,
                     },
                 ],
             });
@@ -127,9 +124,7 @@ export default class UserController {
             }
             return res.status(200).json({
                 success: true,
-                body: {
-                    permission: user.toJSON().role.permission,
-                },
+                body: user.toJSON(),
                 message: "successful",
             });
         } catch (error) {

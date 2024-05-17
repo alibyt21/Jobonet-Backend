@@ -4,10 +4,12 @@ import sequelize from "../utils/db.js";
 const Job = sequelize.define("Job", {
     title: {
         type: DataTypes.STRING,
-        allowNull: false,
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
+    },
+    data: {
+        type: DataTypes.TEXT("long"),
     },
     orgUnit: {
         type: DataTypes.STRING,

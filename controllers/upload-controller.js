@@ -7,18 +7,21 @@ const projectRoot = process.cwd(); // or process.env.PWD
 
 export default class UploadController {
     static upload(req, res, next) {
-        const form = formidable({});
-
         try {
+            const form = formidable({});
             form.parse(req, (err, fields, files) => {
                 if (err) {
                     next(err);
                     return;
                 }
-                var oldpath = files.file[0].filepath;
-                var newpath = path.join(
+                if (!files || !files.file) {
+                    next(err);
+                    return;
+                }
+                let oldpath = files?.file[0]?.filepath;
+                let newpath = path.join(
                     projectRoot + "/public/img",
-                    files.file[0].originalFilename
+                    files?.file[0]?.originalFilename
                 );
                 fs.rename(oldpath, newpath, function (err) {
                     if (err) throw err;

@@ -8,7 +8,7 @@ const Role = sequelize.define("Role", {
         allowNull: false,
         unique: "unique_role",
     },
-    permission: {
+    permissions: {
         type: DataTypes.STRING,
         allowNull: false,
     },
