@@ -1,5 +1,7 @@
 import { DataTypes } from "@sequelize/core";
 import sequelize from "../utils/db.js";
+import Analyse from "./analyse.js";
+import User from "./user.js";
 
 const Job = sequelize.define("Job", {
     title: {
@@ -20,6 +22,10 @@ const Job = sequelize.define("Job", {
     approveStatus: {
         type: DataTypes.STRING,
     },
+});
+
+Job.belongsToMany(User, {
+    through: Analyse,
 });
 
 export default Job;

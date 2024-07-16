@@ -15,20 +15,20 @@ export default async function insertData() {
                 permissions: `["SUPER_USER_PERMISSIONS"]`,
             },
             {
-                role: "organizationAdmin",
-                permissions: `["createNewUser","editUserPermission","editUser","deleteUser","createNewOrganization","viewOrganizationList","editOrganization","deleteOrganization","createNewJobAnalysis"]`,
+                role: "projectManager",
+                permissions: `["viewDashboard","viewUserList","createNewUser","editUser","deleteUser","viewJobList","viewReportsList","editJobAnalysis","createNewJobAnalysis"]`,
             },
             {
-                role: "humanResourcesManager",
-                permissions: `["createNewUser","editUserPermission","editUser","deleteUser","createNewOrganization","viewOrganizationList"]`,
+                role: "projectSupervisor",
+                permissions: `["viewDashboard","viewJobList","viewReportsList"]`,
             },
             {
                 role: "jobAnalystExpert",
-                permissions: `["createNewUser","editUserPermission","editUser","deleteUser"]`,
+                permissions: `["viewDashboard","viewJobList"]`,
             },
             {
                 role: "jobAnalyst",
-                permissions: `["createNewUser","editUserPermission"]`,
+                permissions: `["viewDashboard","viewJobList","editJobAnalysis"]`,
             },
         ]);
     }
@@ -55,6 +55,14 @@ export default async function insertData() {
             {
                 fullName: "علی بیات",
                 email: "alibyt21@gmail.com",
+                password:
+                    "$2a$10$ZVZwXoIsFmFatOd3Grho7OhB.F9VrDHiHUtXAUPnDOsFsUxSKrNmm",
+                roleId: 1,
+                organizationId: null,
+            },
+            {
+                fullName: "تیمور مرجانی",
+                email: "tmarjani@gmail.com",
                 password:
                     "$2a$10$ZVZwXoIsFmFatOd3Grho7OhB.F9VrDHiHUtXAUPnDOsFsUxSKrNmm",
                 roleId: 1,

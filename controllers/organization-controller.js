@@ -1,4 +1,5 @@
 import Organization from "../models/organization.js";
+import User from "../models/user.js";
 
 export default class OrganizationController {
     static async getAll(req, res) {
@@ -62,6 +63,28 @@ export default class OrganizationController {
                 success: false,
                 body: null,
                 message: e,
+            });
+        }
+    }
+
+    static async getUsers(req, res) {
+        try {
+            let users = await User.findAll({
+                where: {
+                    organizationId: req.params.organizationId,
+                },
+            });
+            users = users.map((user) => user.dataValues);
+            res.json({
+                success: true,
+                body: users,
+                message: "All users fetched",
+            });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                body: null,
+                message: "An internal error happend",
             });
         }
     }
