@@ -68,6 +68,14 @@ export default async function insertData() {
                 roleId: 1,
                 organizationId: null,
             },
+            {
+                fullName: "مهرداد پیدائی",
+                email: "m.peidaie@gmail.com",
+                password:
+                    "$2a$10$ZVZwXoIsFmFatOd3Grho7OhB.F9VrDHiHUtXAUPnDOsFsUxSKrNmm",
+                roleId: 1,
+                organizationId: null,
+            },
         ]);
     }
 }

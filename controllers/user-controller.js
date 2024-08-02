@@ -51,6 +51,7 @@ export default class UserController {
             });
         }
     }
+    
     static async register(req, res) {
         try {
             const { fullName, email, password, roleId, organizationId } =
@@ -90,6 +91,7 @@ export default class UserController {
             });
         }
     }
+
     static async getUser(req, res) {
         const token = req.header("Authorization");
         if (!token) {
@@ -135,6 +137,7 @@ export default class UserController {
             });
         }
     }
+
     static async getAll(req, res) {
         try {
             let users = await User.findAll({
@@ -157,5 +160,51 @@ export default class UserController {
                 message: "An internal error happend",
             });
         }
+    }
+
+    static async changePassword(req, res) {
+        try {
+            const { oldPass, newPass } = req.body;
+
+            const user = await User.findOne({
+                where: {
+                    id: req.user.userId,
+                },
+            });
+            if (!user) {
+                return res.status(400).json({
+                    success: false,
+                    body: null,
+                    message: "Invalid Credentials",
+                });
+            }
+            const isPasswordMatch = await bcrypt.compare(
+                oldPass,
+                user.toJSON().password
+            );
+            if (!isPasswordMatch) {
+                return res.status(400).json({
+                    success: false,
+                    body: null,
+                    message: "Invalid Credentials",
+                });
+            }
+            let hashedPassword = await bcrypt.hash(newPass, 10);
+            await User.update(
+                {
+                    password: hashedPassword,
+                },
+                {
+                    where: {
+                        id: req.user.userId,
+                    },
+                }
+            );
+            res.json({
+                success: true,
+                body: null,
+                message: "password has changed",
+            });
+        } catch (e) {}
     }
 }

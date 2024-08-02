@@ -39,8 +39,8 @@ export default class JobController {
                         model: Organization,
                     },
                     {
-                        model: User
-                    }
+                        model: User,
+                    },
                 ],
             });
             jobs = jobs.map((job) => job.dataValues);
@@ -48,6 +48,32 @@ export default class JobController {
                 success: true,
                 body: jobs,
                 message: "All jobs fetched",
+            });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                body: null,
+                message: "An internal error happend",
+            });
+        }
+    }
+
+    static async updateById(req, res) {
+        try {
+            await Job.update(
+                {
+                    data: req.body.data,
+                },
+                {
+                    where: {
+                        id: req.params?.jobId,
+                    },
+                }
+            );
+            res.json({
+                success: true,
+                body: null,
+                message: "job updated",
             });
         } catch (e) {
             res.status(500).json({
