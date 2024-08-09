@@ -1,3 +1,4 @@
+import Job from "../models/job.js";
 import Organization from "../models/organization.js";
 import User from "../models/user.js";
 
@@ -89,6 +90,28 @@ export default class OrganizationController {
         }
     }
 
+    static async getJobs(req, res) {
+        try {
+            let jobs = await Job.findAll({
+                where: {
+                    organizationId: req.params.organizationId,
+                },
+            });
+            jobs = jobs.map((job) => job.dataValues);
+            res.json({
+                success: true,
+                body: jobs,
+                message: "All jobs fetched",
+            });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                body: null,
+                message: "An internal error happend",
+            });
+        }
+    }
+
     static async editOrganization(req, res) {
         try {
             const organization = await Organization.findByPk(
@@ -111,5 +134,18 @@ export default class OrganizationController {
                 message: e,
             });
         }
+    }
+
+    static async deleteById(req, res) {
+        let result = await Organization.destroy({
+            where: {
+                id: req.params?.organizationId,
+            },
+        });
+        res.json({
+            success: true,
+            body: null,
+            message: "organization is deleted successfully",
+        });
     }
 }

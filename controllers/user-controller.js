@@ -3,10 +3,19 @@ import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import Role from "../models/role.js";
 import Organization from "../models/organization.js";
+import { superUserWhiteList } from "../config/whiteList.js";
 const { RANDOMSTRING } = process.env;
 
 // import User from '../models/user';
 export default class UserController {
+    static async whiteList(req, res) {
+        return res.status(200).json({
+            success: true,
+            body: superUserWhiteList,
+            message: "fetched",
+        });
+    }
+
     static async login(req, res) {
         try {
             const { email, password } = req.body;
@@ -34,7 +43,7 @@ export default class UserController {
                 });
             }
             const token = jwt.sign({ userId: user.id }, RANDOMSTRING, {
-                expiresIn: "1h",
+                expiresIn: "1d",
             });
             return res.status(200).json({
                 success: true,
@@ -51,7 +60,7 @@ export default class UserController {
             });
         }
     }
-    
+
     static async register(req, res) {
         try {
             const { fullName, email, password, roleId, organizationId } =
@@ -206,5 +215,38 @@ export default class UserController {
                 message: "password has changed",
             });
         } catch (e) {}
+    }
+
+    static async editUser(req, res) {
+        const { organizationId, roleId } = req.body;
+        await User.update(
+            {
+                organizationId,
+                roleId,
+            },
+            {
+                where: {
+                    id: req.user.userId,
+                },
+            }
+        );
+        res.json({
+            success: true,
+            body: null,
+            message: "user has edited",
+        });
+    }
+
+    static async deleteById(req, res) {
+        let result = await User.destroy({
+            where: {
+                id: req.params?.userId,
+            },
+        });
+        res.json({
+            success: true,
+            body: null,
+            message: "user is deleted successfully",
+        });
     }
 }

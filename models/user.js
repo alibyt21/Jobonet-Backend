@@ -1,21 +1,28 @@
 import { DataTypes } from "@sequelize/core";
 import sequelize from "../utils/db.js";
 
-const User = sequelize.define("User", {
-    fullName: {
-        type: DataTypes.STRING,
-    },
-    email: {
-        type: DataTypes.STRING,
-        validate: {
-            isEmail: true,
+const User = sequelize.define(
+    "User",
+    {
+        fullName: {
+            type: DataTypes.STRING,
         },
-        unique: "unique_email",
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                isEmail: true,
+            },
+            unique: "unique_email",
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-});
+    {
+        // Enable paranoid mode
+        paranoid: true,
+    }
+);
 
 export default User;

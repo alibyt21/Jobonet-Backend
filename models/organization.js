@@ -3,15 +3,22 @@ import sequelize from "../utils/db.js";
 import User from "./user.js";
 import Job from "./job.js";
 
-const Organization = sequelize.define("Organization", {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+const Organization = sequelize.define(
+    "Organization",
+    {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        logo: {
+            type: DataTypes.STRING,
+        },
     },
-    logo: {
-        type: DataTypes.STRING,
-    },
-});
+    {
+        // Enable paranoid mode
+        paranoid: true,
+    }
+);
 
 Organization.hasMany(User);
 

@@ -34,7 +34,7 @@ export default async function insertData() {
     }
     const org = await Organization.findOne({
         where: {
-            id: 1,
+            name: "سازمان امور مالیاتی کشور",
         },
     });
     if (!org) {

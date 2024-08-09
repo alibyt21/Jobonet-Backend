@@ -3,26 +3,33 @@ import sequelize from "../utils/db.js";
 import Analyse from "./analyse.js";
 import User from "./user.js";
 
-const Job = sequelize.define("Job", {
-    title: {
-        type: DataTypes.STRING,
+const Job = sequelize.define(
+    "Job",
+    {
+        title: {
+            type: DataTypes.STRING,
+        },
+        description: {
+            type: DataTypes.TEXT,
+        },
+        data: {
+            type: DataTypes.TEXT("long"),
+        },
+        orgUnit: {
+            type: DataTypes.STRING,
+        },
+        analyzeStatus: {
+            type: DataTypes.STRING,
+        },
+        approveStatus: {
+            type: DataTypes.STRING,
+        },
     },
-    description: {
-        type: DataTypes.TEXT,
-    },
-    data: {
-        type: DataTypes.TEXT("long"),
-    },
-    orgUnit: {
-        type: DataTypes.STRING,
-    },
-    analyzeStatus: {
-        type: DataTypes.STRING,
-    },
-    approveStatus: {
-        type: DataTypes.STRING,
-    },
-});
+    {
+        // Enable paranoid mode
+        paranoid: true,
+    }
+);
 
 Job.belongsToMany(User, {
     through: Analyse,

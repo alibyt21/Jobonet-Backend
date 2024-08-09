@@ -90,6 +90,11 @@ export default class JobController {
                 where: {
                     id: req.params?.jobId,
                 },
+                include: [
+                    {
+                        model: Organization,
+                    },
+                ],
             });
             job = job[0];
             res.json({
@@ -104,5 +109,18 @@ export default class JobController {
                 message: "An internal error happend",
             });
         }
+    }
+
+    static async deleteById(req, res) {
+        let result = await Job.destroy({
+            where: {
+                id: req.params?.jobId,
+            },
+        });
+        res.json({
+            success: true,
+            body: null,
+            message: "job is deleted successfully",
+        });
     }
 }
