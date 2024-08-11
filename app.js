@@ -7,6 +7,7 @@ import userRoutes from "./routes/user-routes.js";
 import organizationRoutes from "./routes/organization-routes.js";
 import roleRoutes from "./routes/role-routes.js";
 import analyseRoutes from "./routes/analyse-routes.js";
+import analyticRoutes from "./routes/analytic-routes.js";
 import jobRoutes from "./routes/job-routes.js";
 import insertData from "./utils/insertData.js";
 import cors from "cors";
@@ -37,6 +38,7 @@ app.use(API_BASE_URL, organizationRoutes);
 app.use(API_BASE_URL, roleRoutes);
 app.use(API_BASE_URL, jobRoutes);
 app.use(API_BASE_URL, analyseRoutes);
+app.use(API_BASE_URL, analyticRoutes);
 
 // prevent from generating Cannot GET / ...
 app.use("/", (req, res) => {
