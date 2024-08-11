@@ -3,6 +3,6 @@ API_BASE_URL = /jobonet/api/v1
 DB_HOST = 
 DB_USER = hivawpir_usrjbnetdb
 DB_PASS = *fdEMSR_RRTk
-DB_NAME = hivawpir_jbnetdb
+DB_NAME = hivawpir_jbntdb
 DB_PORT = 3306
 RANDOMSTRING = QY84ARjanKAg0fwUWT3QnAuUD
